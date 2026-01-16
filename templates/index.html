@@ -1,0 +1,126 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>首页</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        bgMain: '#FEFAF8',
+                        hoverPink: '#FFF5F8',
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        .page-section {
+            display: none;
+            opacity: 0;
+            transform: translateY(10px);
+            transition: opacity 0.5s ease;
+        }
+
+        .page-section.active {
+            display: block;
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        .border-soft {
+            border: 1px solid rgba(0, 0, 0, 0.05);
+        }
+    </style>
+</head>
+
+<body class="bg-bgMain min-h-screen flex flex-col items-center font-sans text-gray-800">
+
+    <div class="w-full max-w-3xl px-6 py-16">
+        <header class="mb-20 text-center">
+            <h1 onclick="showPage('home')" class="text-4xl font-thin tracking-[0.3em] cursor-pointer hover:opacity-70">
+                My Blog</h1>
+            <div class="w-12 h-[1px] bg-black/20 mx-auto mt-6"></div>
+        </header>
+
+        <!-- 首页 -->
+        <section id="home" class="page-section active">
+            <nav class="flex flex-col gap-6">
+                <a href="javascript:void(0)" onclick="showPage('life')"
+                    class="group p-12 bg-white/50 rounded-[2rem] border-soft hover:bg-hoverPink hover:scale-[1.01] transition-all cursor-pointer">
+                    <div class="flex justify-between">
+                        <h2 class="text-2xl text-gray-800">1.LIFE PHOTOS</h2>
+                        <span class="text-2xl text-gray-300 group-hover:text-pink-400">→</span>
+                    </div>
+                </a>
+                <!-- wo -->
+                <a href="javascript:void(0)" onclick="showPage('about')"
+                    class="group p-12 bg-white/50 rounded-[2rem] border-soft hover:bg-hoverPink hover:scale-[1.01] transition-all cursor-pointer">
+                    <div class="flex justify-between">
+                        <h2 class="text-2xl text-gray-800">02. ABOUT ME</h2>
+                        <span class="text-2xl text-gray-300 group-hover:text-pink-400">→</span>
+                    </div>
+                </a>
+            </nav>
+        </section>
+
+        <section id="life" class="page-section">
+            <button onclick="showPage('home')" class="mb-12 text-gray-400 hover:text-black">← 返回</button>
+            <div class="columns-1 md:columns-2 gap-8 space-y-8">
+                {% for post in life_posts %}
+                <article class="break-inside-avoid mb-8">
+                    <div class="bg-white rounded-[1.5rem] overflow-hidden shadow-sm border border-gray-100">
+                        <div class="overflow-hidden aspect-[4/3]">
+                            <img src="{% static post.image %}" 
+                            class="w-full h-full object-cover hover:scale-110 transition-transform duration-700">
+                        </div>
+                        <div class="p-8 hover:bg-hoverPink transition-colors">
+                            <h3 class="text-xl font-medium">{{ post.title }}</h3>
+                            <p class="text-gray-500 mt-2 text-sm">{{ post.desc }}</p>
+                        </div>
+                    </div>
+                </article>
+                {% endfor %}
+            </div>
+        </section>
+
+        <section id="about" class="page-section">
+            <button onclick="showPage('home')" class="mb-12 text-gray-400 hover:text-black">← 返回</button>
+            <div class="bg-white rounded-[2.5rem] p-16 text-center shadow-sm border border-gray-100">
+                <h2 class="text-3xl font-thin mb-6">Hello, Django.</h2>
+
+                <!-- content -->
+                <div class="text-gray-500 space-y-4 leading-relaxed max-w-lg mx-auto">
+                    <p>哈哈哈哈哈哈我c</p>
+                    <p>上学期间一直在玩前端，为了宠幸python,拿起django就是学，苦苦学了几小时，比我当初学python还牛逼</p>
+                    <p>劳资从来没有报过一整页的错，阅读理解随时随地都在，看见红色一片不知道的以为我买股票全上涨了呢，哈哈哈哈django好样的</p>
+                    <p class="mt-6 italic text-gray-400">既然沾都沾了，这个半成品博客就当纪念品了</p>
+                </div>
+
+                <div class="mt-10 pt-6 border-t border-gray-50 text-xs text-gray-300 tracking-widest">
+                    2026.1.16，绝笔
+                </div>
+            </div>
+        </section>
+
+    </div>
+
+    <script>
+        function showPage(pageId) {
+            document.querySelectorAll('.page-section').forEach(el => {
+                el.classList.remove('active');
+                setTimeout(() => { if (!el.classList.contains('active')) el.style.display = 'none'; }, 500);
+            });
+            const target = document.getElementById(pageId);
+            target.style.display = 'block';
+            setTimeout(() => target.classList.add('active'), 10);
+        }
+    </script>
+</body>
+
+</html>
