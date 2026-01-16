@@ -1,8 +1,8 @@
 {
-  "rewrites": [
+  "builds": [
     {
-      "source": "/(.*)",
-      "destination": "/manage.py"
+      "src": "manage.py",
+      "use": "@vercel/python"
     }
   ]
 }
